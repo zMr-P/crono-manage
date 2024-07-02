@@ -74,3 +74,4 @@ C:\Users\paulo\OneDrive\Documentos\Aulas-Projetos\Projetos\CronoManage\CronoMana
 C:\Users\paulo\OneDrive\Documentos\Aulas-Projetos\Projetos\CronoManage\CronoManage\obj\Debug\net7.0\CronoManage.pdb
 C:\Users\paulo\OneDrive\Documentos\Aulas-Projetos\Projetos\CronoManage\CronoManage\obj\Debug\net7.0\CronoManage.genruntimeconfig.cache
 C:\Users\paulo\OneDrive\Documentos\Aulas-Projetos\Projetos\CronoManage\CronoManage\obj\Debug\net7.0\ref\CronoManage.dll
+C:\Users\paulo\OneDrive\Documentos\Aulas-Projetos\Projetos\CronoManage\CronoManage\obj\Debug\net7.0\CronoManage.sourcelink.json

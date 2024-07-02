@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CronoManage.Presentation.Controllers
 {
     [ApiController]
-    [Route("projeto")]
+    [Route("api/projetos")]
     public class MyProjectController : ControllerBase
     {
         private readonly MyProjectServices _services;

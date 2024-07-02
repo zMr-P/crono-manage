@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CronoManage")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84e3993d3ecb7748ff3381fa4151822e7443b68c")]
 [assembly: System.Reflection.AssemblyProductAttribute("CronoManage")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CronoManage")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
