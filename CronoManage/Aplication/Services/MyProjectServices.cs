@@ -1,63 +1,51 @@
 ﻿using CronoManage.Domain.Entities;
 using CronoManage.Domain.Validations;
 using CronoManage.Infraestructure.Data.Context;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace CronoManage.Aplication.Services
 {
     public class MyProjectServices
     {
         private readonly CronoContext _context;
-        private readonly Stopwatch _stopwatch;
 
-        public MyProjectServices(CronoContext context, Stopwatch stopWatch)
+        public MyProjectServices(CronoContext context)
         {
             _context = context;
-            _stopwatch = stopWatch;
         }
 
         public async Task<IEnumerable<MyProject>> GetAllProjects()
         {
-            var dataProject = _context.Projects.ToList();
-
+            var dataProject = await _context.Projects.ToListAsync();
             return dataProject;
         }
+
         public async Task<MyProject?> FindByNameAsync(string name)
         {
-            var dataProject = _context.Projects.ToList().Find(x => x.Name == name);
+            var dataProject = await _context.Projects.FirstOrDefaultAsync(x => x.Name == name);
 
             return dataProject;
         }
 
         public async Task<MyProject?> FindByIdAsync(int id)
         {
-            var dataProject = _context.Projects.ToList().Find(x => x.Id == id);
+            var dataProject = await _context.Projects.FindAsync(id);
 
             return dataProject;
         }
 
-        public Task CreateAsync(MyProject project)
+        public async Task CreateAsync(MyProject project)
         {
-            _stopwatch.Start();
-            project.Elapsed = _stopwatch.Elapsed;
-
-            _context.Projects.Add(project);
-            _context.SaveChanges();
-
-            return Task.CompletedTask;
+            project.StartDate = DateTime.Now;
+            await _context.Projects.AddAsync(project);
+            await _context.SaveChangesAsync();
         }
 
-        public Task StopProjectAsync(MyProject project)
+        public async Task StopProjectAsync(MyProject project)
         {
-            _stopwatch.Stop();
-            project.Elapsed = _stopwatch.Elapsed;
-
+            project.EndDate = DateTime.Now;
             _context.Projects.Update(project);
-            _context.SaveChanges();
-
-            _stopwatch.Reset();
-
-            return Task.CompletedTask;
+            await _context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(MyProject project)
@@ -72,16 +60,15 @@ namespace CronoManage.Aplication.Services
         {
             var dataProject = _context.Projects.ToList();
 
-            if (!dataProject.Any(x => x.Name == newProject.Name))
-            {
-                project.Name = newProject.Name;
-                project.Description = newProject.Description;
+            if (dataProject.Any(x => x.Name == newProject.Name))
+                throw new ArgumentException("O nome do projeto deve ser único!!!");
 
-                _context.Update(project);
-                _context.SaveChanges();
-                return Task.CompletedTask;
-            }
-            throw new ArgumentException("O nome do projeto deve ser único!!!");
+            project.Name = newProject.Name;
+            project.Description = newProject.Description;
+
+            _context.Projects.Update(project);
+            await _context.SaveChangesAsync();
+            return Task.CompletedTask;
         }
     }
 }

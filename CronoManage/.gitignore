@@ -1,1 +1,6 @@
 .vs
+.idea/
+bin/
+obj/
+CronoManage.csproj.user
+CronoManage.sln.DotSettings.user

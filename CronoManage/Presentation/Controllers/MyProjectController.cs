@@ -10,20 +10,19 @@ namespace CronoManage.Presentation.Controllers
     public class MyProjectController : ControllerBase
     {
         private readonly MyProjectServices _services;
+
         public MyProjectController(MyProjectServices services)
         {
             _services = services;
         }
 
         [HttpGet("obter-todos")]
-        public async Task<ActionResult<string>> FoundProjects()
+        public async Task<ActionResult> FoundProjects()
         {
             var dataProject = await _services.GetAllProjects();
 
             if (dataProject.Count() == 0)
-            {
                 return NotFound("Não foi encontrado nenhum projeto");
-            }
 
             return Ok(dataProject);
         }
@@ -34,9 +33,8 @@ namespace CronoManage.Presentation.Controllers
             var dataProject = await _services.FindByIdAsync(id);
 
             if (dataProject == null)
-            {
                 return NotFound(id);
-            }
+
             return Ok(dataProject);
         }
 
@@ -56,6 +54,7 @@ namespace CronoManage.Presentation.Controllers
                 await _services.CreateAsync(dataProject);
                 return Ok(dataProject);
             }
+
             return BadRequest("Projeto já existente");
         }
 
@@ -64,37 +63,35 @@ namespace CronoManage.Presentation.Controllers
         {
             var dataProject = await _services.FindByIdAsync(id);
 
-            if (dataProject != null)
-            {
-                await _services.StopProjectAsync(dataProject);
+            if (dataProject == null)
+                return NotFound(id);
 
-                return Ok(dataProject);
-            }
-            return NotFound(id);
+            await _services.StopProjectAsync(dataProject);
+
+            return Ok(dataProject);
         }
 
 
         [HttpPut("atualizar-projeto")]
         public async Task<IActionResult> UpdateProject(int id, MyProjectValidation project)
         {
-            var dataProject = await _services.FindByIdAsync(id);
-
-            if (dataProject != null)
+            try
             {
-                try
-                {
-                    await _services.UpdateAsync(dataProject, project);
+                var dataProject = await _services.FindByIdAsync(id);
 
-                    var dataNew = await _services.FindByIdAsync(id);
+                if (dataProject == null)
+                    return NotFound(id);
 
-                    return Ok(dataNew);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                await _services.UpdateAsync(dataProject, project);
+
+                var dataNew = await _services.FindByIdAsync(id);
+
+                return Ok(dataNew);
             }
-            return NotFound(id);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("deletar-projeto")]
@@ -102,13 +99,12 @@ namespace CronoManage.Presentation.Controllers
         {
             var dataProject = await _services.FindByIdAsync(id);
 
-            if (dataProject != null)
-            {
-                await _services.DeleteAsync(dataProject);
+            if (dataProject == null)
+                return NotFound(id);
 
-                return Ok("Deletado com Sucesso!");
-            }
-            return NotFound(id);
+            await _services.DeleteAsync(dataProject);
+
+            return Ok("Deletado com Sucesso!");
         }
     }
 }

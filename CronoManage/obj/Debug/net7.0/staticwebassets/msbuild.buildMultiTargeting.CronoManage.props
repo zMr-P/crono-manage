@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\CronoManage.props" />
-</Project>

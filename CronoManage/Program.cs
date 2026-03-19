@@ -13,10 +13,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<CronoContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<MyProjectServices>();
-builder.Services.AddSingleton<Stopwatch>();
 
 var app = builder.Build();
 
